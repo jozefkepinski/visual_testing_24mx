@@ -1,0 +1,14 @@
+name: Visual Regression Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run visual regression tests
+        run: npx playwright test
