@@ -3,3 +3,4 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+tests/visual_regression.spec.ts-snapshots/-screenshots-SearchResults-chromium-win32.png
