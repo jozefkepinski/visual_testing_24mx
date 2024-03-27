@@ -33,7 +33,7 @@ test('Dodawanie produktu do koszyka', async ({ page }) => {
         await page.waitForSelector('//*[@id="wrapper"]/div/p-home/div[1]/div[1]/p-cms-dynamic-renderer[9]/p-cms-container/div/div/div/p-cms-dynamic-renderer/p-cms-article-blurb/a/div[1]')
     ])
     await page.click("//a[@class='m-navigation-link'][normalize-space()='Kaski']");
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
     await page.click("(//img[@alt='Kask Cross'])[1]");
     await page.click("div[class='m-product-card-img'] img[title='Kask Cross Raven Airborne Evo Czarny']");
     await page.click("//div[@class='m-select__display']");
