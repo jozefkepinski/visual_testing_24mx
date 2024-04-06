@@ -6,13 +6,21 @@
   "directories": {
     "test": "tests"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test --trace on",
+    "report": "npx playwright show-report"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@percy/cli": "^1.28.2",
+    "@percy/playwright": "^1.0.5",
     "@playwright/test": "^1.42.1",
     "@types/node": "^20.11.30",
     "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "percy": "^5.0.0"
   }
 }
