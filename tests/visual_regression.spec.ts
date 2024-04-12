@@ -1,11 +1,22 @@
 // visual_regression.spec.ts
 import { test, expect } from '@playwright/test';
+import { TwentyFourMxPage } from './24mx_pom.page';
+
+// uzycie POM
+// const twentyFourMxPage = new TwentyFourMxPage(page);
+//     await twentyFourMxPage.goto();
+
+//     const searchQuery = 'motocross gloves';
+//     await twentyFourMxPage.performSearch(searchQuery);
+
+//     const productTitle = await twentyFourMxPage.getProductTitle();
+//     console.log(`Found product: ${productTitle}`);
 
 
 const percySnapshot = require('@percy/playwright');
 test('Check if main page looks good', async ({ page }) => {
-    
-    await page.goto('https://www.24mx.pl/', {waitUntil: 'domcontentloaded'}),
+    const twentyFourMxPage = new TwentyFourMxPage(page);
+    await twentyFourMxPage.goto();
     await page.waitForSelector('//*[@id="wrapper"]/div/p-home/div[1]/div[1]/p-cms-dynamic-renderer[1]/p-cms-freestyle/div/div/div/div[1]', {state:'visible'});
     await page.waitForLoadState()
     await percySnapshot(page, 'https://www.24mx.pl');
