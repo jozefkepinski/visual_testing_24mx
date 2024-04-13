@@ -9,6 +9,8 @@ export class TwentyFourMxPage {
     readonly categoryHelmets = this.page.locator("//a[@class='m-navigation-link'][normalize-space()='Kaski']")
     readonly crossHelmets = this.page.locator("(//img[@alt='Kask Cross'])[1]")
     readonly openTheHelmetsSizes = this.page.locator("//div[@class='m-select__display']")
+    readonly addToCart = this.page.locator(".m-button.m-button--purchase.qa-pdp-add-to-cart-btn.m-button--md")
+    readonly checkout = this.page.locator("//a[contains(text(),'Przejdź do kasy')]")
 
     async goto() {
         await this.page.goto('https://www.24mx.pl/', {waitUntil: 'domcontentloaded'});
@@ -55,7 +57,6 @@ export class TwentyFourMxPage {
     async chooseHelmetSize(size:string){
         /**
          * Select Helmet size.
-         * 
          * @param size - Select size number XS=1, S:2, M:3, L:4, XL:5
          */
         const sizes: { [key: string]: string } = {
@@ -67,5 +68,13 @@ export class TwentyFourMxPage {
           };
         await this.openTheHelmetsSizes.click()
         await this.page.click(`(//div[@class='a-product-variation'])[${sizes[size]}]`)
+    }
+
+    async addToCartAndCheckout(){
+        await this.addToCart.click()
+        await this.checkout.click()
+        await this.page.waitForLoadState()
+        await this.page.waitForSelector("//div[@class='m-checkout-box m-checkout-box--delivery']//div[@class='m-checkout-box__heading']", {state:'visible'});
+        await this.page.waitForLoadState()
     }
 }
