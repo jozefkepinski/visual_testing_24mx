@@ -1,25 +1,71 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 export class TwentyFourMxPage {
     constructor(private page: Page) {}
 
-    // Lokatory dla elementów na stronie
-    readonly searchInput = this.page.locator('[data-testid="search-input"]');
-    readonly searchButton = this.page.locator('[data-testid="search-button"]');
-    readonly productTitle = this.page.locator('[data-testid="product-title"]');
-    // Dodaj inne lokatory, które są potrzebne
+    // Locators
+    readonly searchInput = this.page.locator('#search-desktop');
+    readonly searchButton = this.page.locator("(//a[@class='autocomplete-item'])[1]");
+    readonly categoryHelmets = this.page.locator("//a[@class='m-navigation-link'][normalize-space()='Kaski']")
+    readonly crossHelmets = this.page.locator("(//img[@alt='Kask Cross'])[1]")
+    readonly openTheHelmetsSizes = this.page.locator("//div[@class='m-select__display']")
 
     async goto() {
         await this.page.goto('https://www.24mx.pl/', {waitUntil: 'domcontentloaded'});
     }
 
-    // Dodaj metody do interakcji z elementami strony
+    // Methods
     async performSearch(query: string) {
         await this.searchInput.fill(query);
+        await this.page.waitForLoadState()
         await this.searchButton.click();
+        await this.page.waitForLoadState()
     }
 
-    async getProductTitle() {
-        return await this.productTitle.textContent();
+    async waitForMainPageLoadState() {
+        await this.page.waitForSelector('//*[@id="wrapper"]/div/p-home/div[1]/div[1]/p-cms-dynamic-renderer[1]/p-cms-freestyle/div/div/div/div[1]', {state:'visible'});
+        await this.page.waitForLoadState()
+    }
+
+    async compareImage(image: string, _clip?:{x: number; y: number; width: number; height: number}|undefined) {
+        if(_clip)
+            {
+                await Promise.all([
+                    expect(this.page).toHaveScreenshot(image, {clip: {x:_clip.x, y:_clip.y, height:_clip.height, width:_clip.width}})
+                ])
+            }
+        else
+        {
+            await Promise.all([expect(this.page).toHaveScreenshot(image)])
+        }
+        
+    }
+
+    async openCategoryHelmetsCross() {
+        await this.categoryHelmets.click()
+        await this.page.waitForLoadState()
+        await this.crossHelmets.click()
+
+    }
+
+    async chooseHelmetbyTitle(name:string){
+        await this.page.click(`div[class='m-product-card-img'] img[title='${name}']`);
+    }
+
+    async chooseHelmetSize(size:string){
+        /**
+         * Select Helmet size.
+         * 
+         * @param size - Select size number XS=1, S:2, M:3, L:4, XL:5
+         */
+        const sizes: { [key: string]: string } = {
+            XS: "1",
+            S: "2",
+            M: "3",
+            L: "4",
+            XL: "5"
+          };
+        await this.openTheHelmetsSizes.click()
+        await this.page.click(`(//div[@class='a-product-variation'])[${sizes[size]}]`)
     }
 }
