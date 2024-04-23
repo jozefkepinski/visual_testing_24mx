@@ -1,5 +1,5 @@
 // visual_regression.spec.ts
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { TwentyFourMxPage } from './24mx_pom.page';
 
 const percySnapshot = require('@percy/playwright');
