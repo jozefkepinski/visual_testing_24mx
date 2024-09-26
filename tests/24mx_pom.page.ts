@@ -1,6 +1,6 @@
 import { Page, expect } from '@playwright/test';
 
-export class TwentyFourMxPage {
+export default class TwentyFourMxPage {
     constructor(private page: Page) {}
 
     // Locators

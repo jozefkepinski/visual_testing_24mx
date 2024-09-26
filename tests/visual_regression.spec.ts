@@ -1,18 +1,15 @@
 // visual_regression.spec.ts
-import { test } from '@playwright/test';
-import { TwentyFourMxPage } from './24mx_pom.page';
+import { test } from './pomFixture';
 
 const percySnapshot = require('@percy/playwright');
-test('Check if main page looks good', async ({ page }) => {
-    const twentyFourMxPage = new TwentyFourMxPage(page);
+test('Check if main page looks good', async ({ page, twentyFourMxPage }) => {
     await twentyFourMxPage.goto();
     await twentyFourMxPage.waitForMainPageLoadState()
     await percySnapshot(page, 'https://www.24mx.pl');
     await twentyFourMxPage.compareImage('/screenshots/HomePage.png')
 });
 
-test('Product searching', async ({ page }) => {
-    const twentyFourMxPage = new TwentyFourMxPage(page);
+test('Product searching', async ({ page, twentyFourMxPage }) => {
     await twentyFourMxPage.goto();
     await twentyFourMxPage.waitForMainPageLoadState()
     await twentyFourMxPage.performSearch('kask motocross')
@@ -20,8 +17,7 @@ test('Product searching', async ({ page }) => {
     await twentyFourMxPage.compareImage('/screenshots/HomePage.png', {x:0, y:0, height:282, width:1280})
 });
 
-test('Add producto to the basket', async ({ page }) => {
-    const twentyFourMxPage = new TwentyFourMxPage(page);
+test('Add producto to the basket', async ({ page, twentyFourMxPage }) => {
     await twentyFourMxPage.goto();
     await twentyFourMxPage.waitForMainPageLoadState()
     await twentyFourMxPage.openCategoryHelmetsCross()
