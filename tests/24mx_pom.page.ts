@@ -1,16 +1,24 @@
-import { Page, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export default class TwentyFourMxPage {
-    constructor(private page: Page) {}
+    private readonly searchInput: Locator
+    private readonly searchButton: Locator
+    private readonly categoryHelmets: Locator
+    private readonly crossHelmets: Locator
+    private readonly openTheHelmetsSizes: Locator
+    private readonly addToCart: Locator
+    private readonly checkout: Locator
 
-    // Locators
-    readonly searchInput = this.page.locator('#search-desktop');
-    readonly searchButton = this.page.locator("(//a[@class='autocomplete-item'])[1]");
-    readonly categoryHelmets = this.page.locator("//a[@class='m-navigation-link'][normalize-space()='Kaski']")
-    readonly crossHelmets = this.page.locator("(//img[@alt='Kask Cross'])[1]")
-    readonly openTheHelmetsSizes = this.page.locator("//div[@class='m-select__display']")
-    readonly addToCart = this.page.locator(".m-button.m-button--purchase.qa-pdp-add-to-cart-btn.m-button--md")
-    readonly checkout = this.page.locator("//a[contains(text(),'Przejdź do kasy')]")
+    constructor(public readonly page: Page) {
+        this.searchInput = this.page.locator('#search-desktop');
+        this.searchButton = this.page.locator("(//a[@class='autocomplete-item'])[1]");
+        this.categoryHelmets = this.page.locator("//a[@class='m-navigation-link'][normalize-space()='Kaski']")
+        this.crossHelmets = this.page.locator("(//img[@alt='Kask Cross'])[1]")
+        this.openTheHelmetsSizes = this.page.locator("//div[@class='m-select__display']")
+        this.addToCart = this.page.locator(".m-button.m-button--purchase.qa-pdp-add-to-cart-btn.m-button--md")
+        this.checkout = this.page.locator("//a[contains(text(),'Przejdź do kasy')]")
+    }
+    
 
     async goto() {
         await this.page.goto('https://www.24mx.pl/', {waitUntil: 'domcontentloaded'});

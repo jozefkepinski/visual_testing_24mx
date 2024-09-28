@@ -2,14 +2,20 @@ import {test as baseTest} from "@playwright/test";
 import TwentyFourMxPage from "./24mx_pom.page"
 
 
-type pages = {
+type MyFixtures = {
     twentyFourMxPage: TwentyFourMxPage
 }
 
-const testPages = baseTest.extend<pages>({
+const testPages = baseTest.extend<MyFixtures>({
     twentyFourMxPage: async({page}, use) =>{
-        await use(new TwentyFourMxPage(page)
-    )
+        // Set up the fixture.
+        const twentyFourMxPage = new TwentyFourMxPage(page)
+        // await twentyFourMxPage.goto()
+        // await twentyFourMxPage.waitForMainPageLoadState()
+
+        // Use the fixture value in the test.
+        await use(twentyFourMxPage)
+
     }
 })
 
